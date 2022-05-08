@@ -1,5 +1,5 @@
 
-library(ExomeDepth)
+# library(ExomeDepth) # uncomment this
 #source('R/countBamInGranges.R')
 
 

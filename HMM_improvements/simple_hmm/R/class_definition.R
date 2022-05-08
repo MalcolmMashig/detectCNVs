@@ -268,7 +268,7 @@ setMethod("CallCNVs", "ExomeDepth", function( x, chromosome, start, end, name, t
                         c( 1. - transition.probability, transition.probability/2., transition.probability/2., 0.,
                           0.3, 0.5, 0, 0.2,
                           0.3, 0, 0.5, 0.2,
-                          0, transition.probability, transition.probability, 1 - 2*transition.probability.),
+                          0, transition.probability, transition.probability, 1 - 2*transition.probability),
                         byrow = TRUE)
 
   my.chromosomes <- unique(x@annotations$chromosome)

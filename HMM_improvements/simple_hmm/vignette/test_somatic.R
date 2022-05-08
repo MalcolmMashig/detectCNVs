@@ -1,4 +1,4 @@
-library(ExomeDepth)
+# library(ExomeDepth) # uncomment this
 
 data(exons.hg19)
 data(ExomeCount)
