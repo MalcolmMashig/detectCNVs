@@ -1,0 +1,5 @@
+Algorithm,Accuracy,Measure
+Baseline,0.7826666666666667,Sensitivity
+Baseline,0.8710638998682477,Specificity
+Account for Active Regions,0.7946666666666666,Sensitivity
+Account for Active Regions,0.8427437905626312,Specificity
