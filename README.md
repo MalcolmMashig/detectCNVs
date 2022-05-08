@@ -60,6 +60,8 @@ vignette: (from ExomeDepth) irrelevant
 
 ### Experiment Replication Directions:
 
+Assuming you have cloned this directory locally...
+
 To run the simulators (CNV-Sim or SECNVs), please reference the description of simulator-pipeline.R above. Python3 and all of the tools utilized may require compilation. To download the hg38 chromosome one fasta, please visit https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/. 
 
 To run the heuristic evaluation, please reference the description of heuristic-eval.R above. Since this is an R script, R must be installed and a few R packages need to be installed including fitdistrplus, GenomicRanges, and tidyverse. These can be installed in R with install.packages("PACKAGE_NAME").
