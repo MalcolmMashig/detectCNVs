@@ -1,0 +1,160 @@
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{ExomeDepth}
+
+\documentclass[10pt]{article}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage[margin=2cm]{geometry}
+\usepackage[colorlinks=true]{hyperref}
+
+\title{ExomeDepth}
+\author{Vincent Plagnol}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{What is new?}
+
+Version 1.1.12:
+\begin{itemize}
+\item Updated for GRanges changes.
+\end{itemize}
+
+Version 1.1.10:
+\begin{itemize}
+\item Modification to deal with the new GenomicRanges slots.
+\end{itemize}
+
+Version 1.1.8:
+\begin{itemize}
+\item Removed the NAMESPACE assay export for GenomicRanges, as this function is not used and was preventing install with R-devel.
+\end{itemize}
+
+Version 1.1.6:
+\begin{itemize}
+\item Bug fix: some issues when some chromosomes had 0 call
+\end{itemize}
+
+Version 1.1.5:
+\begin{itemize}
+\item Bug fix: annotations were missing in version 1.1.4
+\end{itemize}
+
+Version 1.1.4:
+\begin{itemize}
+\item Bug fix: the parsing of the BAM file was extremely slow because of improper handling of paired end reads.
+\end{itemize}
+
+
+Version 1.1.0:
+\begin{itemize}
+\item Bug fix to deal properly with CNV affecting last exon of a gene (thank you to Anna Fowler).
+\item Moved the vignette to knitr.
+\item Updated to the latest GenomicRanges functions and upgraded the R package requirements (many thanks to the CRAN team for helping me sort this out).
+\end{itemize}
+
+Version 1.0.9:
+\begin{itemize}
+\item Bug fix in the read count routine (many thanks to Douglas Ruderfer for picking this up).
+\end{itemize}
+
+Version 1.0.7:
+\begin{itemize}
+\item Minor bug fix that excludes very small exons from the correlation computation of the aggregate reference optimization routine.
+\end{itemize}
+
+Version 1.0.5:
+\begin{itemize}
+\item The transition from one CNV state to another now takes into account the distance between exons (contribution from Anna Fowler and Gerton Lunter, Oxford, UK).
+\item In previous versions, the first exon of each chromosome was set to normal copy number to avoid CNVs spanning multiple exons. This has now been fixed, and the Viterbi algorithm now runs separately for each chromosome (with a dummy exon to start each chromosome that is forced to normal copy number). This should really make a difference for targeted sequencing sets (thank you again to Anna Fowler and Gerton Lunter for suggesting this fix).
+\item Various small bug fixes, especially to use the \texttt{subset.for.speed} argument when a new ExomeDepth object is created.
+\item Only include primary alignments in the read count function: thank you to Peng Zhang (John Hopkins) for pointing this out.
+\end{itemize}
+
+
+Version 1.0.0:
+\begin{itemize}
+\item New warning when the correlation between the test and reference samples is low, so that the user knows he should expect unreliable results.
+\item New function to count everted reads (characteristic of segmental duplications)
+\item Updated \texttt{genes.hg19} and \texttt{exons.hg19} objects. The number of exons tested is now 10\% lower, because it excludes some non coding regions as well as UTRs that are typically not well covered. My test data suggest that removing these difficult regions cleans up the signal quite a bit and the quality of established CNVs calls has improved significantly as a consequence of this. 
+\end{itemize}
+
+
+
+\section{What ExomeDepth does and tips for QC}
+
+\subsection{What ExomeDepth does and does not do}
+
+ExomeDepth uses read depth data to call CNVs from exome sequencing experiments.
+A key idea is that the test exome should be compared to a matched aggregate reference set.
+This aggregate reference set should combine exomes from the same batch and it should also be optimized for each exome.
+It will certainly differ from one exome to the next.
+
+Importantly, ExomeDepth assumes that the CNV of interest is absent from the aggregate reference set.
+Hence related individuals should be excluded from the aggregate reference.
+It also means that ExomeDepth can miss common CNVs, if the call is also present in the aggregate reference.
+ExomeDepth is really suited to detect rare CNV calls (typically for rare Mendelian disorder analysis).
+
+The ideas used in this package are of course not specific to exome sequencing and could be applied to other targeted sequencing datasets, as long as they contain a sufficiently large number of exons to estimate the parameters (at least 20 genes, say, but probably more would be useful).
+Also note that PCR based enrichment studies are often not well suited for this type of read depth analysis.
+The reason is that as the number of cycles is often set to a high number in order to equalize the representation of each amplicon, which can discard the CNV information.
+
+
+\subsection{Useful quality checks}
+Just to give some general expectations I usually obtain 150-280 CNV calls per exome sample (two third of them deletions).
+Any number clearly outside of this range is suspicious and suggests that either the model was inappropriate or that something went wrong while running the code.
+Less important and less precise, I also expect the aggregate reference to contain 5-10 exome samples. 
+While there is no set rule for this number, and the code may work very well with fewer exomes in the aggregate reference set, numbers outside of this range suggest potential technical artifacts.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Create count data from BAM files}
+
+
+\subsection{Count for autosomal chromosomes}
+Firstly, to facilitate the generation of read count data,  exon positions for the hg19 build of the human genome are available within \texttt{ExomeDepth}.
+This \texttt{exons.hg19} data frame can be directly passed as an argument of \texttt{getBAMCounts} (see below).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
