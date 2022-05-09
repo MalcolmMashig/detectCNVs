@@ -286,7 +286,7 @@ setMethod("CallCNVs", "ExomeDepth", function( x, chromosome, start, end, name, t
     end.positions <- loc.annotations$end       #end position of targeted exons to be used when adding a dummy exon at the end of the chromosome.
 
     ##loc.likelihood <-  rbind(c(- Inf, 0, -Inf), x@likelihood[good.pos, c(2, 1, 3)]) ##add a dummy exon so that we start at cn = 2 (normal)
-    loc.likelihood <- rbind(c(- Inf, 0, -Inf, -Inf), x@likelihood[good.pos, c(2, 1, 3, 2)],c(-100,0,-100. -100)) ##update from Anna Fowler add a dummy exon so that we start at cn = 2 (normal) and a dummy exon at the end of the chromosome as well so that it ends at cn=2; for some reason I had to use -100 instead of -Inf
+    loc.likelihood <- rbind(c(-Inf, 0, -Inf, -Inf), x@likelihood[good.pos, c(2, 1, 3, 2)],c(-100,0,-100, -100)) ##update from Anna Fowler add a dummy exon so that we start at cn = 2 (normal) and a dummy exon at the end of the chromosome as well so that it ends at cn=2; for some reason I had to use -100 instead of -Inf
     my.calls <- viterbi.hmm (transitions, loglikelihood = loc.likelihood,
                              positions = as.integer(c(positions[1] - 2*expected.CNV.length, positions,end.positions[length(end.positions)]+2*expected.CNV.length)),   #include position of new dummy exon
                              expected.CNV.length = expected.CNV.length)
@@ -302,20 +302,19 @@ setMethod("CallCNVs", "ExomeDepth", function( x, chromosome, start, end, name, t
       my.calls$calls$start <- loc.annotations$start[ my.calls$calls$start.p ]
       my.calls$calls$end <- loc.annotations$end[ my.calls$calls$end.p ]
       my.calls$calls$chromosome <- as.character(loc.annotations$chromosome[ my.calls$calls$start.p ])
-
       my.calls$calls$id <- paste('chr', my.calls$calls$chromosome, ':',  my.calls$calls$start, '-',  my.calls$calls$end, sep = '')
-      my.calls$calls$type <- c('deletion', 'duplication')[ my.calls$calls$type ]
+      my.calls$calls$type <- c('deletion', 'duplication', 'active')[ my.calls$calls$type ]
+      for (ir in 1:nrow(my.calls$calls)) {if(isTRUE(my.calls$calls$type[ir] == "active")==TRUE){my.calls$calls<-my.calls$calls[-c(ir),]}}
 
 ########## make things pretty
       my.calls$calls$BF <- NA
       my.calls$calls$reads.expected <- NA
       my.calls$calls$reads.observed <- NA
 
-
       for (ir in 1:nrow(my.calls$calls)) {
 
         if (my.calls$calls$type[ir] == 'duplication') my.calls$calls$BF[ir] <-  sum(loc.likelihood [ my.calls$calls$start.p[ir] : my.calls$calls$end.p[ir],3 ] - loc.likelihood [ my.calls$calls$start.p[ir] : my.calls$calls$end.p[ir],2 ])
-
+    
         if (my.calls$calls$type[ir] == 'deletion') my.calls$calls$BF[ir] <-  sum(loc.likelihood [ my.calls$calls$start.p[ir] : my.calls$calls$end.p[ir], 1 ] - loc.likelihood [ my.calls$calls$start.p[ir] : my.calls$calls$end.p[ir],2  ])
 
         my.calls$calls$reads.expected[ ir ] <-  sum( loc.total [my.calls$calls$start.p[ir] : my.calls$calls$end.p[ir] ] * loc.expected [my.calls$calls$start.p[ir] : my.calls$calls$end.p[ ir ] ])

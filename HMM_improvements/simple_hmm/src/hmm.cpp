@@ -66,32 +66,39 @@ SEXP C_hmm (const SEXP nstates, const SEXP nobs, const SEXP transitions, const S
 
       trans[0] = trans_c[j*nstates_c];
       trans[1] = dist_effect*trans_c[j*nstates_c + 1 ] + (1.0 - dist_effect)*trans_c[j*nstates_c];
-      trans[2] = dist_effect*trans_c[j*nstates_c - 2] + (1.0 - dist_effect)*trans_c[j*nstates_c];
-      trans[3] = trans_c[j*nstates_c];
+      trans[2] = dist_effect*trans_c[j*nstates_c + 2] + (1.0 - dist_effect)*trans_c[j*nstates_c];
+      trans[3] = trans_c[j*nstates_c + 3];
+      //Rprintf("%d %d \n", trans[0], trans[3]);
       
       for (int k = 0; k != nstates_c; k++) {   //state one is coming from
 	//double newp = loglikelihood[i][j] + viterbi_prob[i - 1][k] + log(trans_matrix[k][j]);
 	//double newp = proba_c[j*nobs_c + i] + viterbi_prob[i - 1][k] + log(trans_c[j*nstates_c + k]);
 	double newp = proba_c[j*nobs_c + i] + viterbi_prob[i - 1][k] + log(trans[ k ]);
+  //Rprintf("i,j: %d %d \n %d  %d\n", i,j,newp, viterbi_prob[i][j]);
 	
 	if (newp >  viterbi_prob[i][j] ) {
 	  viterbi_prob[i][j] = newp;
 	  from_where[i][j] = k;
+	  
 	}
+	//Rprintf("k: %d from_where: %d \n", k, from_where[i][j]);
       }
       
       if (proba_c[j*nobs_c + i] == -HUGE_VAL) {from_where[i][j] = 0;}  //weak stuff, but it deals with me setting some likelihoods to -Inf
-    
+
+      if (from_where[i][j] == -1) {from_where[i][j] = 0;}
+ /*
       //-----------
       if (from_where[i][j] == -1) {  //catching bugs
 	for (int k = 0; k != nstates_c; k++) { 
-	  Rprintf("bug"); return (myList);
+	  Rprintf("bug, %d %d \n ", i, j); return (myList);
 	}
 	Rprintf("Error: Value equal to -1\n"); 
 	return myList;
       }
+ */
       //-------------
-
+  
 
     }
   }

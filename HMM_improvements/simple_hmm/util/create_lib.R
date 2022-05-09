@@ -48,3 +48,4 @@ file.remove(paste0(base, "/ExomeDepth/Read-and-delete-me"))
 ## now oxygenize
 pkgbuild::compile_dll(paste0(base, "/ExomeDepth"))
 devtools::document(paste0(base, "/ExomeDepth"))
+

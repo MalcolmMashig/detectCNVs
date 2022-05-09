@@ -76,6 +76,7 @@ viterbi.hmm <- function(transitions, loglikelihood, positions, expected.CNV.leng
   nobs <- nrow(loglikelihood)
 
   res <- .Call("C_hmm", nstates, nobs, transitions, loglikelihood, positions, as.double(expected.CNV.length), PACKAGE = 'ExomeDepth')
+
   dimnames(res[[2]])[[2]] <- c('start.p', 'end.p', 'type', 'nexons')
   res[[2]] <- as.data.frame(res[[2]])
   names(res) <- c('Viterbi.path', 'calls')
