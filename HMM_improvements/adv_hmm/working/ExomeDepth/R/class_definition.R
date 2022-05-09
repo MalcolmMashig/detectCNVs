@@ -264,13 +264,13 @@ setMethod("CallCNVs", "ExomeDepth", function( x, chromosome, start, end, name, t
   message('To get meaningful result, this correlation should really be above 0.97. If this is not the case, consider the output of ExomeDepth as less reliable (i.e. most likely a high false positive rate)')
 
   total <- x@test + x@reference
-  transitions <- matrix(nrow = 4, ncol = 4,
-                        c( 1. - transition.probability, transition.probability/2., transition.probability/2., 0., 0, 0,
+  transitions <- matrix(nrow = 6, ncol = 6,
+                        c( 1. - transition.probability, transition.probability/3., transition.probability/3., transition.probability/3., 0, 0,
                           0.5, 0.5, 0, 0, 0, 0,
                           0.5, 0, 0.5, 0, 0, 0,
-                          0, 0, 0, 1 - 2*transition.probability, transition.probability, transition.probability,
-                          0, 0, 0, 0.5, 0.5, 0,
-                          0, 0, 0, 0.5, 0, 0.5),
+                          transition.probability/3., 0, 0, 1 - 2*transition.probability - transition.probability/3., transition.probability, transition.probability,
+                          0, 0, 0, 0.25, 0.75, 0,
+                          0, 0, 0, 0.25, 0, 0.75),
                         byrow = TRUE)
 
   my.chromosomes <- unique(x@annotations$chromosome)
