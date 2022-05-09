@@ -46,11 +46,11 @@ resampleBamCounts.R: the function resampleBamCounts takes in a number of distrib
 
 samtools-1.14: the genomic sequence processing toolset that was utilized for a number of post-processing steps (converting SAM files to clean/indexed BAM files)
 
-SECNVs: We were unable to push this directory to Github, and so please download it with "git clone https://github.com/YJulyXing/SECNVs.git", This is the SECNVs CNV simulator (alternative to CNV-Sim) that requires a target regions BED file and reference fasta file as input. Some adaptations were made to ensure the simulator runs under python3, and python2 will be required for the simulator calls described later on.
+SECNVs: We were unable to push this directory to Github, and so please download it with "git clone https://github.com/YJulyXing/SECNVs.git", This is the SECNVs CNV simulator (alternative to CNV-Sim) that requires a target regions BED file and reference fasta file as input. Some adaptations were made to ensure the simulator runs under python3, and so python2 will be required for the simulator calls described later on.
 
 simulate.R: the function simulate is responsible for carrying out both resampleBamCounts and computeAcc (mentioned above). The function takes in a boolean variable for whether or not regions will be weighted, what those regions are (optional), what transition probability (weight) should be utilized in the HMM for those regions (optional), and lastly what transition probability should be utilized if weighting is false. This function carries out the typical ExomeDepth workflow of calling CNVs based on read depth data (which includes a number of different steps), and then essentially evaluates accuracy of the calls.
 
-simulator-pipeline.R: This script shows the ordered command-line commands that need to be run in order to simulate CNVs (with either CNV-Sim or SECNVs), then post-process the simulation output, then summarize target regions' read depth for the simulated samples. Once read depth figures are obtained, CNVs can be detected. Please note that these commands will not work unless necessary user-based adjustments (marked with <>) are made. For example, absolute paths are sometimes required, and some inputs (i.e. fasta for chromosome one) are too large to make accessible in this repository. Additionally, all of the toolsets utilized (python3, CNV-Sim, SECNVs, Picard, GATK, Samtools, Minimap2, etc.) may require compilation.
+simulator-pipeline.R: This script shows the ordered command-line commands that need to be run in order to simulate CNVs (with either CNV-Sim or SECNVs), then post-process the simulation output, then summarize target regions' read depth for the simulated samples. Once read depth figures are obtained, CNVs can be detected. Please note that these commands will not work unless necessary user-based adjustments (marked with <>) are made. For example, absolute paths are sometimes required, and some inputs (i.e. fasta for chromosome one) are too large to make accessible in this repository. Additionally, all of the toolsets utilized (python2/3, CNV-Sim, SECNVs, Picard, GATK, Samtools, Minimap2, etc.) may require compilation.
 
 src: (from ExomeDepth) source code for non-R functions. As mentioned above, the relevant source file is hmm.cpp which implements the Viterbi algorithm to determine the most likely sequence of hidden states (copy number characterizations) given the depth of coverage for a sample in contrast to a reference.
 
@@ -62,7 +62,7 @@ vignette: (from ExomeDepth) irrelevant
 
 Assuming you have cloned this directory locally...
 
-To run the simulators (CNV-Sim or SECNVs), please reference the description of simulator-pipeline.R above. Python3 and all of the tools utilized may require compilation. To download the hg38 chromosome one fasta, please visit https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/. 
+To run the simulators (CNV-Sim or SECNVs), please reference the description of simulator-pipeline.R above. Python2/3 and all of the tools utilized may require compilation. To download the hg38 chromosome one fasta, please visit https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/. 
 
 To run the heuristic evaluation, please reference the description of heuristic-eval.R above. Since this is an R script, R must be installed and a few R packages need to be installed including fitdistrplus, GenomicRanges, and tidyverse. These can be installed in R with install.packages("PACKAGE_NAME").
 
