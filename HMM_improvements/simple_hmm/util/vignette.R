@@ -1,4 +1,4 @@
-library(ExomeDepth)
+# library(ExomeDepth) # uncomment this
 source('R/plot_CNVs_method.R')
 data(ExomeCount)
 

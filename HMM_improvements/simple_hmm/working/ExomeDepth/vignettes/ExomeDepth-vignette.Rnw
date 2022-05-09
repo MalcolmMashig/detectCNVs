@@ -119,7 +119,7 @@ Firstly, to facilitate the generation of read count data,  exon positions for th
 This \texttt{exons.hg19} data frame can be directly passed as an argument of \texttt{getBAMCounts} (see below).
 
 <<exons>>=
-library(ExomeDepth)
+# library(ExomeDepth) # uncomment this
 data(exons.hg19)
 print(head(exons.hg19))
 @ 
@@ -150,7 +150,7 @@ Here is how this object could for example be used to obtain a more generic data 
 
 
 <<Rsamtools.load>>=
-library(ExomeDepth)
+# library(ExomeDepth) # uncomment this
 data(ExomeCount)
 ExomeCount.dafr <- as(ExomeCount, 'data.frame')
 ExomeCount.dafr$chromosome <- gsub(as.character(ExomeCount.dafr$seqnames), 

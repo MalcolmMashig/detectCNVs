@@ -1,5 +1,5 @@
 
-library(ExomeDepth)
+# library(ExomeDepth) # uncomment this
 #source("R/class_definition.R")
 #source("R/optimize_reference_set.R")
 
