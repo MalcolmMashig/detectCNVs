@@ -268,7 +268,7 @@ setMethod("CallCNVs", "ExomeDepth", function( x, chromosome, start, end, name, t
                         c( 1. - transition.probability, transition.probability/2., transition.probability/2., 0.,
                           0.3, 0.5, 0, 0.2,
                           0.3, 0, 0.5, 0.2,
-                          0, transition.probability, transition.probability, 1 - 2*transition.probability.),
+                          0, transition.probability, transition.probability, 1 - 2*transition.probability),
                         byrow = TRUE)
 
   my.chromosomes <- unique(x@annotations$chromosome)
@@ -286,7 +286,7 @@ setMethod("CallCNVs", "ExomeDepth", function( x, chromosome, start, end, name, t
     end.positions <- loc.annotations$end       #end position of targeted exons to be used when adding a dummy exon at the end of the chromosome.
 
     ##loc.likelihood <-  rbind(c(- Inf, 0, -Inf), x@likelihood[good.pos, c(2, 1, 3)]) ##add a dummy exon so that we start at cn = 2 (normal)
-    loc.likelihood <- rbind(c(- Inf, 0, -Inf, 0), x@likelihood[good.pos, c(2, 1, 3, 2)],c(-100,0,-100, 0)) ##update from Anna Fowler add a dummy exon so that we start at cn = 2 (normal) and a dummy exon at the end of the chromosome as well so that it ends at cn=2; for some reason I had to use -100 instead of -Inf
+    loc.likelihood <- rbind(c(- Inf, 0, -Inf, -Inf), x@likelihood[good.pos, c(2, 1, 3, 2)],c(-100,0,-100. -100)) ##update from Anna Fowler add a dummy exon so that we start at cn = 2 (normal) and a dummy exon at the end of the chromosome as well so that it ends at cn=2; for some reason I had to use -100 instead of -Inf
     my.calls <- viterbi.hmm (transitions, loglikelihood = loc.likelihood,
                              positions = as.integer(c(positions[1] - 2*expected.CNV.length, positions,end.positions[length(end.positions)]+2*expected.CNV.length)),   #include position of new dummy exon
                              expected.CNV.length = expected.CNV.length)

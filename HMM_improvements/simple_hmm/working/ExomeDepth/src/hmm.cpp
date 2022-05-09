@@ -26,7 +26,7 @@ SEXP C_hmm (const SEXP nstates, const SEXP nobs, const SEXP transitions, const S
   const int *locations = INTEGER (positions);
   const double Expected = *REAL(expectedLength);
 
-  vector<double> trans (3, 0.);
+  vector<double> trans (nstates_c, 0.);
   double dist, dist_effect;
 
   //Rprintf("Number of hidden states: %d\n",nstates_c);
@@ -39,7 +39,7 @@ SEXP C_hmm (const SEXP nstates, const SEXP nobs, const SEXP transitions, const S
   vector<vector< int> > from_where;
   
   //---------------- starting point in 0 state
-  //Rprintf("Initializing the HMM\n");
+  Rprintf("Initializing the HMM\n");
   vector<int> temp_i(nstates_c,-1);
   from_where.push_back( temp_i );
 
@@ -66,7 +66,8 @@ SEXP C_hmm (const SEXP nstates, const SEXP nobs, const SEXP transitions, const S
 
       trans[0] = trans_c[j*nstates_c];
       trans[1] = dist_effect*trans_c[j*nstates_c + 1 ] + (1.0 - dist_effect)*trans_c[j*nstates_c];
-      trans[2] = dist_effect*trans_c[j*nstates_c + 2 ] + (1.0 - dist_effect)*trans_c[j*nstates_c];
+      trans[2] = dist_effect*trans_c[j*nstates_c - 2] + (1.0 - dist_effect)*trans_c[j*nstates_c];
+      trans[3] = trans_c[j*nstates_c];
       
       for (int k = 0; k != nstates_c; k++) {   //state one is coming from
 	//double newp = loglikelihood[i][j] + viterbi_prob[i - 1][k] + log(trans_matrix[k][j]);
