@@ -6,7 +6,7 @@ Malcolm Mashig (mjm2396) and Michael Fagan (mef2224)
 
 ### File/Folder Descriptions:
 
-CNV-Sim: the CNV-Sim toolset for simulating CNVs based on the target regions (BED) and reference (FASTA) required input files. Some adaptations were made to ensure the simulator runs under python3. This folder also includes the minimap2 sequence alignment toolset, which is utilized by the simulator.
+CNV-Sim: we were not able to push this to Github but please add this directory with "git clone https://github.com/NabaviLab/CNV-Sim.git". This is the CNV-Sim toolset for simulating CNVs based on the target regions (BED) and reference (FASTA) required input files. Some adaptations were made to ensure the simulator runs under python3, and so python2 will be required for the simulator calls described later on. Within this folder, please "git clone https://github.com/lh3/minimap2.git" to download the minimap2 sequence alignment toolset, which is utilized by the simulator.
 
 CNVbenchmarkeR: relevant files and scripts from https://github.com/TranslationalBioinformaticsIGTP/CNVbenchmarkeR which we explored, but did not use, as a tool for evaluation
 
@@ -46,7 +46,7 @@ resampleBamCounts.R: the function resampleBamCounts takes in a number of distrib
 
 samtools-1.14: the genomic sequence processing toolset that was utilized for a number of post-processing steps (converting SAM files to clean/indexed BAM files)
 
-SECNVs: the SECNVs CNV simulator (alternative to CNV-Sim) that requires a target regions BED file and reference fasta file as input. Some adaptations were made to ensure the simulator runs under python3.
+SECNVs: We were unable to push this directory to Github, and so please download it with "git clone https://github.com/YJulyXing/SECNVs.git", This is the SECNVs CNV simulator (alternative to CNV-Sim) that requires a target regions BED file and reference fasta file as input. Some adaptations were made to ensure the simulator runs under python3, and python2 will be required for the simulator calls described later on.
 
 simulate.R: the function simulate is responsible for carrying out both resampleBamCounts and computeAcc (mentioned above). The function takes in a boolean variable for whether or not regions will be weighted, what those regions are (optional), what transition probability (weight) should be utilized in the HMM for those regions (optional), and lastly what transition probability should be utilized if weighting is false. This function carries out the typical ExomeDepth workflow of calling CNVs based on read depth data (which includes a number of different steps), and then essentially evaluates accuracy of the calls.
 
