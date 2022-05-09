@@ -16,7 +16,7 @@ data: (from ExomeDepth) R package data. ExomeCount.RData is a read depth dataset
 
 DESCRIPTION: (from ExomeDepth) R package metadata
 
-gatk: the GATK sequencing toolset that is utilized by the SECNVs simulator
+gatk: the GATK sequencing toolset that is utilized by the SECNVs simulator; since it was too large to push to Github, please download with "git clone https://github.com/broadinstitute/gatk.git"
 
 ground-truth.csv: the true CNVs for sample read depth counts provided by ExomeDepth (ExomeCount) which were used for a heuristic evaluation of accounting for characteristic regions
 
@@ -38,7 +38,7 @@ Makefile: (from ExomeDepth) for building and installing the ExomeDepth package
 
 NAMESPACE: (from ExomeDepth) namespace metadata for the ExomeDepth package
 
-picard: a sequence manipulation toolset utilized by the SECNVs simulator
+picard: a sequence manipulation toolset utilized by the SECNVs simulator; since it was too large to push to Github, please download with "git clone https://github.com/broadinstitute/picard.git"
 
 R: (from ExomeDepth) source code for R functions in ExomeDepth. The key function is CallCNVs within R/class_definition.R which takes in the result of getBamCounts found in R/countBamInGranges.R (which aggregates read depth data from an aligned sample), and returns the detected CNVs.
 
